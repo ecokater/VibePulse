@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>VibePulse · 通透的 macOS 菜单栏仪表盘</title>
-<meta name="description" content="VibePulse 将 Claude Code、Codex 的连接状态、订阅额度、本机 Token 用量与 Mac 系统状态集中在一个通透的菜单栏面板中。" />
+<title>VibePulse · 为 vibe coding 而生的 macOS 菜单栏面板</title>
+<meta name="description" content="保持心流，不被额度打断。VibePulse 把 Claude Code、Codex 的剩余额度、用量与 Mac 状态，收进菜单栏一块通透的小面板，让你安心享受 vibe coding。" />
 <style>
   :root{
     --bg:#070713;
@@ -92,7 +92,7 @@
   h1{font-size:clamp(40px,6.4vw,72px);line-height:1.04;font-weight:800;letter-spacing:-1.4px}
   h1 .grad{background:linear-gradient(110deg,#ffffff 8%,#a9c4ff 42%,#7ef0ff 70%,#ffb88a 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent}
-  .sub{max-width:660px;margin:22px auto 0;color:var(--muted);font-size:clamp(16px,2vw,19px)}
+  .sub{max-width:680px;margin:22px auto 0;color:var(--muted);font-size:clamp(16px,2vw,19px)}
   .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
   .meta{margin-top:18px;color:var(--muted-2);font-size:13px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
   .meta span{display:inline-flex;align-items:center;gap:6px}
@@ -125,7 +125,7 @@
   /* ---------- stats strip ---------- */
   .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:10px}
   .stat{padding:24px;text-align:center;border-radius:18px}
-  .stat .n{font-size:clamp(24px,3vw,34px);font-weight:800;letter-spacing:-.5px;
+  .stat .n{font-size:clamp(22px,2.7vw,30px);font-weight:800;letter-spacing:-.5px;
     background:linear-gradient(120deg,#fff,#9fb8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
   .stat .l{color:var(--muted);font-size:13px;margin-top:4px}
 
@@ -183,31 +183,31 @@
           VibePulse
         </div>
         <div class="nav-links">
-          <a class="hide" href="#features">功能</a>
+          <a class="hide" href="#features">特点</a>
           <a class="hide" href="#download">下载</a>
           <a href="https://github.com/ecokater/VibePulse" target="_blank" rel="noopener">GitHub</a>
-          <a class="btn" href="https://github.com/ecokater/VibePulse/releases/download/v1.1.0/VibePulse-1.1.0-macOS-arm64.dmg">下载</a>
+          <a class="btn" data-download href="https://github.com/ecokater/VibePulse/releases/latest">免费下载</a>
         </div>
       </div>
     </nav>
 
     <!-- HERO -->
     <header class="hero">
-      <span class="pill reveal d1"><span class="dot"></span>macOS 15+ · Apple Silicon · 免费开源</span>
-      <h1 class="reveal d2">通透掌握你的<br><span class="grad">AI 编程额度与 Mac 状态</span></h1>
-      <p class="sub reveal d3">VibePulse 把 Claude Code、Codex 的连接状态、5 小时 / 7 天余额、本机 Token 用量与 Mac 系统状态，凝聚进一块漂浮于渐变之上的菜单栏玻璃面板。</p>
+      <span class="pill reveal d1"><span class="dot"></span>为 vibe coding 而生 · macOS 菜单栏</span>
+      <h1 class="reveal d2">保持心流，<br><span class="grad">让 vibe coding 一路顺</span></h1>
+      <p class="sub reveal d3">写得正起劲，最怕被一句「额度用完了」打断。VibePulse 把 Claude Code 和 Codex 的剩余额度、用量，连同你的 Mac 状态，收进菜单栏里一块通透的小面板——你只管享受心流，剩下的它替你盯着。</p>
       <div class="cta reveal d4">
-        <a class="btn lg" href="https://github.com/ecokater/VibePulse/releases/download/v1.1.0/VibePulse-1.1.0-macOS-arm64.dmg">
+        <a class="btn lg" data-download href="https://github.com/ecokater/VibePulse/releases/latest">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
-          下载 for macOS
+          免费下载 for macOS
         </a>
         <a class="btn ghost lg" href="https://github.com/ecokater/VibePulse" target="_blank" rel="noopener">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49v-1.7c-2.78.62-3.37-1.21-3.37-1.21-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.36-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9v2.82c0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>
-          GitHub 仓库
+          看看源码
         </a>
       </div>
       <div class="meta reveal d4">
-        <span>🆓 完全免费</span><span>🔒 零遥测 · 本地处理</span><span>⚖️ MIT 许可证</span>
+        <span>🆓 完全免费</span><span>🔒 不碰你的隐私</span><span>🍎 macOS 原生</span>
       </div>
     </header>
 
@@ -221,39 +221,39 @@
 
     <!-- FEATURES -->
     <section id="features">
-      <div class="eyebrow">一块面板，全部掌握</div>
-      <h2>清晰的层级，通透的信息</h2>
-      <p class="lead">半透明卡片浮于渐变背景，高对比正文、柔光描边与微量霓虹高光，让高价值信息一眼可读。</p>
+      <div class="eyebrow">为什么需要它</div>
+      <h2>专注创作，别为这些小事分心</h2>
+      <p class="lead">那些容易打断心流的琐事，VibePulse 都替你收进了一块好看的玻璃小面板里。</p>
       <div class="grid">
         <div class="card glass">
-          <div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13h4v6H5zM10 9h4v10h-4zM15 5h4v14h-4z"/></svg></div>
-          <h3>AI 订阅额度</h3>
-          <p>Claude Code 与 Codex 的 5 小时 / 7 天剩余额度与重置时间，实时进度条一目了然。</p>
-        </div>
-        <div class="card glass">
           <div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-          <h3>本机 Token 用量</h3>
-          <p>今日 / 本周 / 本月用量，按官方公开单价估算等价 API 价值，去重 + 缓存分档计费更准。</p>
+          <h3>额度不再突然见底</h3>
+          <p>随时看到 Claude、Codex 还剩多少、几点回满。灵感正盛的时候，不被一句「已达上限」浇灭。</p>
         </div>
         <div class="card glass">
-          <div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
-          <h3>系统与网络状态</h3>
-          <p>开机时长、CPU、内存、电池、公网 IP 与所在国家，Mac 状态尽收眼底。</p>
+          <div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13h4v6H5zM10 9h4v10h-4zM15 5h4v14h-4z"/></svg></div>
+          <h3>花了多少，心里有数</h3>
+          <p>今天、本周、本月用了多少，大概值多少钱，一眼看清。用得明白，也用得更从容。</p>
         </div>
         <div class="card glass">
           <div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8Z"/><path d="M6 1v3M10 1v3M14 1v3"/></svg></div>
-          <h3>保持唤醒 · 合盖运行</h3>
-          <p>一键阻止息屏休眠，可选永久 / 1 / 2 / 4 小时；系统级合盖不休眠让长任务持续运行。</p>
+          <h3>合盖也不断，长任务安心跑</h3>
+          <p>让 AI 跑一长串任务时，不怕屏幕睡着、合盖中断。去泡杯咖啡，回来它还在跑。</p>
+        </div>
+        <div class="card glass">
+          <div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+          <h3>Mac 状态，顺手一瞥</h3>
+          <p>电量、内存、网络、所在地区……抬眼就有，不用在一堆窗口之间切来切去。</p>
         </div>
         <div class="card glass">
           <div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.4 7.7 8 9 4.6-1.3 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
-          <h3>隐私优先</h3>
-          <p>OAuth 凭据仅从钥匙串临时读取并发往官方接口，不保存、不展示；日志只在本地汇总。</p>
+          <h3>只在你的 Mac 上，不碰隐私</h3>
+          <p>你的登录信息只在本机用一下，不保存、不上传、不偷看；用量统计也都在你自己的电脑上完成。</p>
         </div>
         <div class="card glass">
           <div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="3"/><path d="M3 9h18"/><circle cx="6.5" cy="6.5" r=".6" fill="#dfe7ff"/></svg></div>
-          <h3>原生 Liquid Glass</h3>
-          <p>SwiftUI 构建，深 / 浅色与跟随系统；macOS 26 启用原生液态玻璃，向下自动回退材质。</p>
+          <h3>轻盈通透，赏心悦目</h3>
+          <p>玻璃质感的小面板，深浅色自动跟随系统。安静待在菜单栏，好看，又不打扰。</p>
         </div>
       </div>
     </section>
@@ -261,10 +261,10 @@
     <!-- STATS -->
     <section style="padding-top:10px">
       <div class="strip">
-        <div class="stat glass"><div class="n">8s</div><div class="l">实时刷新节奏</div></div>
-        <div class="stat glass"><div class="n">2</div><div class="l">Claude · Codex 双栈</div></div>
-        <div class="stat glass"><div class="n">0</div><div class="l">遥测 / 第三方分析</div></div>
-        <div class="stat glass"><div class="n">~440KB</div><div class="l">轻量安装包</div></div>
+        <div class="stat glass"><div class="n">心流不断</div><div class="l">不被额度打断</div></div>
+        <div class="stat glass"><div class="n">长任务安心</div><div class="l">合盖也照跑</div></div>
+        <div class="stat glass"><div class="n">0 打扰</div><div class="l">不碰你的隐私</div></div>
+        <div class="stat glass"><div class="n">免费</div><div class="l">开源 · macOS 原生</div></div>
       </div>
     </section>
 
@@ -272,23 +272,23 @@
     <section id="download">
       <div class="download glass">
         <div class="glowring"></div>
-        <div class="eyebrow">现在开始</div>
-        <h2>把它放进你的菜单栏</h2>
-        <p class="lead">下载 DMG，拖入「应用程序」即可。轻盈、通透，专为 Vibe Coding 而生。</p>
+        <div class="eyebrow">现在就开始</div>
+        <h2>把它放进菜单栏，回到你的 vibe</h2>
+        <p class="lead">下载、拖进「应用程序」，半分钟搞定。然后，继续你的 vibe coding。</p>
         <div class="cta" style="margin-top:28px">
-          <a class="btn lg" href="https://github.com/ecokater/VibePulse/releases/download/v1.1.0/VibePulse-1.1.0-macOS-arm64.dmg">
+          <a class="btn lg" data-download href="https://github.com/ecokater/VibePulse/releases/latest">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
-            下载 VibePulse v1.1.0
+            <span data-version>免费下载 VibePulse</span>
           </a>
-          <a class="btn ghost lg" href="https://github.com/ecokater/VibePulse/releases" target="_blank" rel="noopener">查看所有版本</a>
+          <a class="btn ghost lg" href="https://github.com/ecokater/VibePulse/releases" target="_blank" rel="noopener">所有版本</a>
         </div>
         <div class="dl-meta">
-          <span class="chip">📦 VibePulse-1.1.0-macOS-arm64.dmg</span>
-          <span class="chip">🍎 macOS 15+</span>
-          <span class="chip">💎 Apple Silicon</span>
-          <span class="chip">✅ 含 SHA256 校验</span>
+          <span class="chip">🍎 macOS 15 及以上</span>
+          <span class="chip">💎 Apple Silicon（M 系列）</span>
+          <span class="chip">🪶 极轻量，几秒下完</span>
+          <span class="chip">🆓 完全免费</span>
         </div>
-        <p class="note">本版本为 ad-hoc 签名：首次打开若提示「无法验证开发者」，右键点按图标 →「打开」即可。需要统计用量时，请确保本机已登录 Claude Code / Codex 官方客户端。</p>
+        <p class="note">首次打开如果系统提示「无法验证开发者」，在图标上点右键 →「打开」就可以了。想看用量统计的话，记得先在 Mac 上登录 Claude Code 或 Codex。</p>
       </div>
     </section>
 
@@ -296,12 +296,33 @@
     <footer>
       <div class="fnav">
         <a href="https://github.com/ecokater/VibePulse" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://github.com/ecokater/VibePulse/releases" target="_blank" rel="noopener">Releases</a>
-        <a href="https://github.com/ecokater/VibePulse/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+        <a href="https://github.com/ecokater/VibePulse/releases" target="_blank" rel="noopener">下载</a>
+        <a href="https://github.com/ecokater/VibePulse/blob/main/LICENSE" target="_blank" rel="noopener">开源协议</a>
       </div>
-      <div>© 2026 ecokater · VibePulse · 为 Vibe Coding 打造的原生 macOS 菜单栏仪表盘</div>
+      <div>© 2026 ecokater · VibePulse · 让每一次 vibe coding 都更顺手</div>
       <div style="margin-top:8px;color:rgba(244,246,255,.3)">Claude、Codex、Anthropic、OpenAI 商标归各自所有，图标仅用于识别对应服务。</div>
     </footer>
   </div>
+
+  <!-- 下载链接自动跟随最新 Release：抓取 latest 的 .dmg 直链；失败则回退到 releases/latest 页面 -->
+  <script>
+    (function(){
+      var REPO = 'ecokater/VibePulse';
+      fetch('https://api.github.com/repos/' + REPO + '/releases/latest', {headers:{'Accept':'application/vnd.github+json'}})
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(d){
+          if(!d) return;
+          var assets = d.assets || [];
+          var dmg = assets.filter(function(a){ return /\.dmg$/i.test(a.name); })[0];
+          var url = dmg ? dmg.browser_download_url : (d.html_url || ('https://github.com/' + REPO + '/releases/latest'));
+          document.querySelectorAll('[data-download]').forEach(function(a){ a.href = url; });
+          var tag = (d.tag_name || '').replace(/^v/i, '');
+          if(tag){
+            document.querySelectorAll('[data-version]').forEach(function(e){ e.textContent = '免费下载 VibePulse v' + tag; });
+          }
+        })
+        .catch(function(){ /* 保留默认的 releases/latest 链接 */ });
+    })();
+  </script>
 </body>
 </html>
