@@ -32,6 +32,8 @@ VibePulse 将 Claude Code、Codex 的连接状态、订阅额度、本机 Token 
 
 > `≈$` 金额表示等价 API 价值，并非 Claude Pro、Codex Plus 等订阅的实际扣费。
 
+VibePulse 每 5 分钟自动调用 Claude 与 Codex 官方接口刷新连接状态、5 小时额度和 7 天额度；Mac 从睡眠唤醒后也会立即刷新。即使未打开 Claude Code 或 Codex，额度仍会保持更新。
+
 ## 安全与隐私
 
 - 所有 Token 用量统计均在本机完成
@@ -55,6 +57,13 @@ cd VibePulse
 chmod +x build-app.sh
 ./build-app.sh
 open dist/VibePulse.app
+```
+
+构建 DMG 安装包：
+
+```bash
+chmod +x build-dmg.sh
+./build-dmg.sh
 ```
 
 构建产物位于：

@@ -57,7 +57,19 @@ private struct UsageEntry {
 }
 
 final class UsageMetricsReader {
-    private let calendar = Calendar.current
+    private let calendar: Calendar = {
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = .current
+        calendar.firstWeekday = 2
+        calendar.minimumDaysInFirstWeek = 4
+        return calendar
+    }()
+    private let fractionalISO8601Formatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter
+    }()
+    private let ISO8601Formatter = ISO8601DateFormatter()
 
     func readCodex() -> UsageSnapshot {
         readPricedSessions(at: FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".codex/sessions")) { data, modified in
@@ -247,6 +259,7 @@ final class UsageMetricsReader {
 
     private func parseDate(_ value: Any?) -> Date? {
         guard let string = value as? String else { return nil }
-        return ISO8601DateFormatter().date(from: string)
+        return fractionalISO8601Formatter.date(from: string)
+            ?? ISO8601Formatter.date(from: string)
     }
 }

@@ -45,27 +45,13 @@ final class ClaudeAccountReader {
 
     func readLimits() async -> UsageLimits? {
         await Task.detached(priority: .utility) {
-            guard let token = self.readAccessToken(),
-                  let url = URL(string: "https://api.anthropic.com/api/oauth/usage") else { return nil }
-            var request = URLRequest(url: url)
-            request.timeoutInterval = 12
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-            request.setValue("oauth-2025-04-20", forHTTPHeaderField: "anthropic-beta")
-
-            do {
-                let (data, response) = try await URLSession.shared.data(for: request)
-                guard let http = response as? HTTPURLResponse,
-                      http.statusCode == 200,
-                      let object = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
-                    return nil
-                }
-                let primary = self.parseWindow(object["five_hour"], name: "5小时")
-                let secondary = self.parseWindow(object["seven_day"], name: "7天")
-                guard primary != nil || secondary != nil else { return nil }
-                return UsageLimits(primary: primary, secondary: secondary)
-            } catch {
-                return nil
+            if let token = self.readAccessToken(),
+               let limits = await self.requestLimits(token: token) {
+                return limits
             }
+            self.refreshClaudeSession()
+            guard let refreshedToken = self.readAccessToken() else { return nil }
+            return await self.requestLimits(token: refreshedToken)
         }.value
     }
 
@@ -104,6 +90,70 @@ final class ClaudeAccountReader {
               let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
               let oauth = object["claudeAiOauth"] as? [String: Any] else { return nil }
         return oauth["accessToken"] as? String
+    }
+
+    private func requestLimits(token: String) async -> UsageLimits? {
+        guard let url = URL(string: "https://api.anthropic.com/api/oauth/usage") else { return nil }
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 12
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("oauth-2025-04-20", forHTTPHeaderField: "anthropic-beta")
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard let http = response as? HTTPURLResponse,
+                  http.statusCode == 200,
+                  let object = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+                return nil
+            }
+            let primary = parseWindow(object["five_hour"], name: "5小时")
+            let secondary = parseWindow(object["seven_day"], name: "7天")
+            guard primary != nil || secondary != nil else { return nil }
+            return UsageLimits(primary: primary, secondary: secondary)
+        } catch {
+            return nil
+        }
+    }
+
+    private func refreshClaudeSession() {
+        guard let executable = claudeExecutable else { return }
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: executable)
+        process.arguments = [
+            "-p", "/usage",
+            "--output-format", "json",
+            "--no-session-persistence",
+            "--tools", ""
+        ]
+        process.environment = proxyAwareEnvironment()
+        process.standardOutput = Pipe()
+        process.standardError = Pipe()
+        try? process.run()
+        process.waitUntilExit()
+    }
+
+    private func proxyAwareEnvironment() -> [String: String] {
+        var environment = ProcessInfo.processInfo.environment
+        let result = run("/usr/sbin/scutil", arguments: ["--proxy"])
+        let patterns = [
+            ("HTTPProxy", "HTTPPort", "HTTP_PROXY"),
+            ("HTTPSProxy", "HTTPSPort", "HTTPS_PROXY"),
+            ("SOCKSProxy", "SOCKSPort", "ALL_PROXY")
+        ]
+        for (hostKey, portKey, environmentKey) in patterns {
+            guard let host = matchValue(hostKey, in: result.output),
+                  let port = matchValue(portKey, in: result.output) else { continue }
+            let scheme = environmentKey == "ALL_PROXY" ? "socks5" : "http"
+            environment[environmentKey] = "\(scheme)://\(host):\(port)"
+        }
+        return environment
+    }
+
+    private func matchValue(_ key: String, in output: String) -> String? {
+        let pattern = #"\#(key)\s*:\s*(\S+)"#
+        guard let regex = try? NSRegularExpression(pattern: pattern),
+              let match = regex.firstMatch(in: output, range: NSRange(output.startIndex..., in: output)),
+              let range = Range(match.range(at: 1), in: output) else { return nil }
+        return String(output[range])
     }
 
     private func parseWindow(_ value: Any?, name: String) -> RateLimitWindow? {

@@ -36,6 +36,14 @@ enum AppearanceMode: String, CaseIterable, Identifiable {
         case .dark: .dark
         }
     }
+
+    var appKitAppearance: NSAppearance? {
+        switch self {
+        case .system: nil
+        case .light: NSAppearance(named: .aqua)
+        case .dark: NSAppearance(named: .darkAqua)
+        }
+    }
 }
 
 @MainActor
@@ -49,7 +57,10 @@ final class AppModel: ObservableObject {
         }
     }
     @Published var appearance: AppearanceMode {
-        didSet { UserDefaults.standard.set(appearance.rawValue, forKey: "appearance") }
+        didSet {
+            UserDefaults.standard.set(appearance.rawValue, forKey: "appearance")
+            applyAppearance()
+        }
     }
     @Published var launchAtLogin = false {
         didSet { updateLaunchAtLogin() }
@@ -66,11 +77,16 @@ final class AppModel: ObservableObject {
     @Published var codexLimits = UsageLimits.unavailable
     @Published var ipLocation = IPLocation.loading
     @Published var lastUpdated = Date()
+    @Published var lastAccountRefresh: Date?
 
     private var caffeinate: Process?
     private var refreshTimer: Timer?
+    private var accountRefreshTimer: Timer?
+    private var wakeObserver: NSObjectProtocol?
     private var awakeTimer: Timer?
     private var isInitializing = true
+    private var isRefreshingCodexAccount = false
+    private var isRefreshingClaudeAccount = false
     private var hasLiveCodexLimits = false
     private var hasLiveClaudeLimits = false
     private let metricsReader = SystemMetricsReader()
@@ -85,12 +101,24 @@ final class AppModel: ObservableObject {
         launchAtLogin = SMAppService.mainApp.status == .enabled
         isLidSleepDisabled = lidSleepController.isDisabled()
         isInitializing = false
+        applyAppearance()
         refresh()
         refreshIP()
         refreshCodexAccount()
         refreshClaudeAccount()
         refreshTimer = Timer.scheduledTimer(withTimeInterval: 8, repeats: true) { [weak self] _ in
             Task { @MainActor in self?.refresh() }
+        }
+        accountRefreshTimer = Timer.scheduledTimer(withTimeInterval: 5 * 60, repeats: true) { [weak self] _ in
+            Task { @MainActor in self?.refreshOfficialAccounts() }
+        }
+        accountRefreshTimer?.tolerance = 30
+        wakeObserver = NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.didWakeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in self?.refreshOfficialAccounts() }
         }
     }
 
@@ -111,8 +139,7 @@ final class AppModel: ObservableObject {
         refresh()
         isLidSleepDisabled = lidSleepController.isDisabled()
         refreshIP(force: true)
-        refreshCodexAccount()
-        refreshClaudeAccount()
+        refreshOfficialAccounts()
     }
 
     func setLidSleepDisabled(_ disabled: Bool) {
@@ -128,22 +155,41 @@ final class AppModel: ObservableObject {
     }
 
     private func refreshCodexAccount() {
+        guard !isRefreshingCodexAccount else { return }
+        isRefreshingCodexAccount = true
         Task {
             codexAccount = await codexAccountReader.readStatus()
             if let limits = await codexAccountReader.readLimits() {
                 hasLiveCodexLimits = true
                 codexLimits = limits
             }
+            isRefreshingCodexAccount = false
+            markAccountRefreshFinished()
         }
     }
 
     private func refreshClaudeAccount() {
+        guard !isRefreshingClaudeAccount else { return }
+        isRefreshingClaudeAccount = true
         Task {
             claudeAccount = await claudeAccountReader.readStatus()
             if let limits = await claudeAccountReader.readLimits() {
                 hasLiveClaudeLimits = true
                 claudeLimits = limits
             }
+            isRefreshingClaudeAccount = false
+            markAccountRefreshFinished()
+        }
+    }
+
+    private func refreshOfficialAccounts() {
+        refreshCodexAccount()
+        refreshClaudeAccount()
+    }
+
+    private func markAccountRefreshFinished() {
+        if !isRefreshingCodexAccount && !isRefreshingClaudeAccount {
+            lastAccountRefresh = Date()
         }
     }
 
@@ -156,6 +202,14 @@ final class AppModel: ObservableObject {
 
     func quit() {
         NSApplication.shared.terminate(nil)
+    }
+
+    private func applyAppearance() {
+        let selectedAppearance = appearance.appKitAppearance
+        NSApplication.shared.appearance = selectedAppearance
+        for window in NSApplication.shared.windows {
+            window.appearance = selectedAppearance
+        }
     }
 
     private func updateAwakeProcess() {
