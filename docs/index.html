@@ -324,5 +324,50 @@
         .catch(function(){ /* 保留默认的 releases/latest 链接 */ });
     })();
   </script>
+
+  <!-- GSAP 滚动动效（本地化，无需 CDN；尊重 prefers-reduced-motion） -->
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script>
+    (function(){
+      if(!window.gsap || !window.ScrollTrigger) return;
+      if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      // 各区块标题：进入视口时柔和上浮
+      gsap.utils.toArray('section').forEach(function(sec){
+        var heads = sec.querySelectorAll('.eyebrow, h2, .lead');
+        if(!heads.length) return;
+        gsap.from(heads, {
+          opacity:0, y:26, duration:.7, ease:'power3.out', stagger:.08, clearProps:'all',
+          scrollTrigger:{ trigger:sec, start:'top 80%' }
+        });
+      });
+
+      // 功能卡片：错落浮入
+      gsap.from('#features .card', {
+        opacity:0, y:36, duration:.7, ease:'power3.out', stagger:.09, clearProps:'all',
+        scrollTrigger:{ trigger:'#features .grid', start:'top 82%' }
+      });
+
+      // 数据条：轻微缩放 + 上浮
+      gsap.from('.strip .stat', {
+        opacity:0, y:22, scale:.96, duration:.6, ease:'power2.out', stagger:.07, clearProps:'all',
+        scrollTrigger:{ trigger:'.strip', start:'top 86%' }
+      });
+
+      // 下载卡片：整体浮入
+      gsap.from('#download .download', {
+        opacity:0, y:40, scale:.975, duration:.8, ease:'power3.out', clearProps:'all',
+        scrollTrigger:{ trigger:'#download', start:'top 84%' }
+      });
+
+      // 截图：随滚动轻微视差，营造漂浮深度
+      gsap.to('.showcase .frame img', {
+        yPercent:-6, ease:'none',
+        scrollTrigger:{ trigger:'.showcase', start:'top bottom', end:'bottom top', scrub:.8 }
+      });
+    })();
+  </script>
 </body>
 </html>
